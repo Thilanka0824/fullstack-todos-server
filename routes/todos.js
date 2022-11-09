@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { db } = require('../mongo');
+const { v4 } = require("uuid");
 
 
 const mockTodos = [{
@@ -67,8 +68,34 @@ router.get('/all', async function (req, res, next) {
         });
     }
 
-    
+
 
 });
+
+router.post("/create-one", async (req, res) => {
+    try {
+        console.log(req.body)
+
+        const newTodo = {
+            ...req.body,
+            id: v4(),
+            isComplete: false,
+            creationDate: new Date(),
+            lastModified: new Date(),
+            completedDate: null
+        }
+        console.log(newTodo)
+        res.json({
+            success: true,
+            todo: newTodo
+        })
+    } catch (error) {
+        console.error(err)
+        res.json({
+            success: false,
+            error: err.toString()
+        })
+    }
+})
 
 module.exports = router;
