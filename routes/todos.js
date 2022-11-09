@@ -1,6 +1,7 @@
 var express = require('express');
-const { db } = require('../mongo');
 var router = express.Router();
+const { db } = require('../mongo');
+
 
 const mockTodos = [{
     id: "4387f4d8-aeac-4559-9f1b-3c5d537c955c",
@@ -51,12 +52,23 @@ const mockTodos = [{
 
 /* GET todos listing. */
 router.get('/all', async function (req, res, next) {
+    try {
+        // const DBtodo = await db().collection("todos").find({}).toArray();
+        // console.log(DBtodo);
+        res.json({
+            success: true,
+            todo: mockTodos
+        });
+    } catch (err) {
+        console.log(err.name);
+        res.json({
+            success: false,
+            error: err.toString(),
+        });
+    }
+
     
-    res.json({
-        success: true,
-        todo: mockTodos
-    });
-    
+
 });
 
 module.exports = router;
