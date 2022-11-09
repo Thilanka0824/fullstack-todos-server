@@ -68,8 +68,6 @@ router.get('/all', async function (req, res, next) {
         });
     }
 
-
-
 });
 
 router.post("/create-one", async (req, res) => {
@@ -79,6 +77,9 @@ router.post("/create-one", async (req, res) => {
         const newTodo = {
             ...req.body,
             id: v4(),
+            title: req.body.title,
+            description: req.body.description,
+            priority: req.body.priority,
             isComplete: false,
             creationDate: new Date(),
             lastModified: new Date(),
