@@ -74,6 +74,7 @@ router.post("/create-one", async (req, res) => {
     try {
         console.log(req.body)
 
+
         const newTodo = {
             ...req.body,
             id: v4(),
@@ -85,13 +86,42 @@ router.post("/create-one", async (req, res) => {
             lastModified: new Date(),
             completedDate: null
         }
-        console.log(newTodo)
+
+        const addTodo = db().collection('todos').insertOne(newTodo)
+        console.log("addTodo", addTodo)
+
         res.json({
             success: true,
             todo: newTodo
         })
     } catch (error) {
         console.error(err)
+        res.json({
+            success: false,
+            error: err.toString()
+        })
+    }
+})
+
+router.put("/update-one/:id", async (req, res) => {
+    try {
+        const id = req.body.id
+        const lastModified = new Date()
+
+        console.log("thiss",req.body.isComplete)
+        
+        const updatedToDo = () => {
+            
+        }
+
+        res.json({
+            success: true,
+            todo: updatedToDo
+        })
+
+    
+    } 
+    catch (error) {
         res.json({
             success: false,
             error: err.toString()
