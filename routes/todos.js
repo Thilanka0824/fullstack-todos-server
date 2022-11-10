@@ -54,11 +54,11 @@ const mockTodos = [{
 /* GET todos listing. */
 router.get('/all', async function (req, res, next) {
     try {
-        // const DBtodo = await db().collection("todos").find({}).toArray();
-        // console.log(DBtodo);
+        const DBtodo = await db().collection("todos").find({}).toArray();
+        console.log(DBtodo);
         res.json({
             success: true,
-            todo: mockTodos
+            todo: DBtodo
         });
     } catch (err) {
         console.log(err.name);
