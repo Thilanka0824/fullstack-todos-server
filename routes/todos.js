@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+// var { validateBlogData } = require("../validations/todos");
+
 const { db } = require("../mongo");
 const { v4 } = require("uuid");
 
@@ -79,7 +81,7 @@ router.get("/all", async function (req, res, next) {
 
 router.post("/create-one", async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
 
     const newTodo = {
       ...req.body,
@@ -93,6 +95,15 @@ router.post("/create-one", async (req, res) => {
       completedDate: null,
     };
 
+    // const todoCheck = validateBlogData(newTodo);
+    // if (todoCheck.isValid === false) {
+    //   res.json({
+    //     success: false,
+    //     message: todoCheck.message,
+    //   });
+    //   return;
+    // }
+
     const addTodo = db().collection("todos").insertOne(newTodo);
     console.log("addTodo", addTodo);
 
@@ -100,7 +111,7 @@ router.post("/create-one", async (req, res) => {
       success: true,
       todo: newTodo,
     });
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     res.json({
       success: false,
@@ -126,11 +137,11 @@ router.put("/update-one/:id", async (req, res) => {
           $set: {
             lastModified: lastModified,
             isComplete: isComplete,
-            completedDate: completedDate
+            completedDate: completedDate,
           },
         }
       );
-        console.log(toggleToDoIsComplete)
+    console.log(toggleToDoIsComplete);
     res.json({
       success: true,
       todo: updatedToDo,
@@ -143,25 +154,24 @@ router.put("/update-one/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete-one/:id", async (req,res)=>{
-    try {
-        const id = req.params.id;
+router.delete("/delete-one/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
 
-        const deleteToDo = await db().collection('todos').deleteOne({
-            id: id
-        })
+    const deleteToDo = await db().collection("todos").deleteOne({
+      id: id,
+    });
 
-        res.json({
-            success: true,
-            todo: deleteToDo
-        })
-    } 
-    catch (error) {
-        res.json({
-            success: false,
-            error: error.toString()
-        })
-    }
-}) 
+    res.json({
+      success: true,
+      todo: deleteToDo,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.toString(),
+    });
+  }
+});
 
 module.exports = router;
