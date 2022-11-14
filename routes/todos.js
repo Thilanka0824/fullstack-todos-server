@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-// var { validateBlogData } = require("../validations/todos");
+var validateBlogData  = require("../validations/todos");
 
 const { db } = require("../mongo");
 const { v4 } = require("uuid");
@@ -65,7 +65,7 @@ const mockTodos = [
 router.get("/all", async function (req, res, next) {
   try {
     const DBtodo = await db().collection("todos").find({}).toArray();
-    console.log(DBtodo);
+    // console.log(DBtodo);
     res.json({
       success: true,
       todo: DBtodo,
@@ -95,17 +95,18 @@ router.post("/create-one", async (req, res) => {
       completedDate: null,
     };
 
-    // const todoCheck = validateBlogData(newTodo);
-    // if (todoCheck.isValid === false) {
-    //   res.json({
-    //     success: false,
-    //     message: todoCheck.message,
-    //   });
-    //   return;
-    // }
+    const todoCheck = validateBlogData(newTodo);
+    console.log(todoCheck)
+    if (todoCheck.isValid === false) {
+      res.json({
+        success: false,
+        message: todoCheck.message,
+      });
+      return;
+    }
 
     const addTodo = db().collection("todos").insertOne(newTodo);
-    console.log("addTodo", addTodo);
+    // console.log("addTodo", addTodo);
 
     res.json({
       success: true,
