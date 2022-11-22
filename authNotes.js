@@ -1,3 +1,12 @@
+/**
+ * auth notes
+ * https://www.npmjs.com/package/bcrypt
+ * 
+ * https://www.npmjs.com/package/jsonwebtoken
+ * 
+ * "npm i dotenv" for environment variables
+ */
+
 
 /*
 # Fullstack Example
@@ -171,3 +180,4 @@ app.options("*", cors());
 - One of the main functions of the .env files for react are going to be setting a particular url endpoint for when your application is deployed on the internet. I.E. When you're developing locally, your urlEndpoint is going to be something like "http://localhost:4000", but after you deploy the application and the server is hosted the urlEndpoint is going to be something like "https://some-hosted-application-url.com"
 	- To load in the REACT_APP_URL_ENDPOINT environment variable from the .env.local file, you would use: const urlEndpoint = process.env.REACT_APP_URL_ENDPOINT;
 */
+
